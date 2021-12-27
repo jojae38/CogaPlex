@@ -36,23 +36,23 @@ int main()
 			printf("insert name->");
 			char insert_name[20];
 			scanf("%s", insert_name);
-			
+
 			printf("insert weight->");
-			double insert_weight=0;
+			double insert_weight = 0;
 			scanf("%Le", &insert_weight);
 
 			printf("insert height->");
-			double insert_height=0;
+			double insert_height = 0;
 			scanf("%Le", &insert_height);
 
-			subject* sub = malloc(sizeof (subject));
+			subject* sub = malloc(sizeof(subject));
 			strcpy(sub->str, insert_name);
 			sub->weight = insert_weight;
 			sub->height = insert_height;
-			
+
 			subject_container[data_size] = sub;
 			data_size++;
-			
+
 		}
 		else if (mode == Delete)
 		{
@@ -69,14 +69,14 @@ int main()
 				scanf("%s", insert_name);
 				for (int i = 0; i < data_size; i++)
 				{
-					if (strcmp(subject_container[i]->str, insert_name)==0)
+					if (strcmp(subject_container[i]->str, insert_name) == 0)
 					{
 						iter = i;
 						free(subject_container[iter]);
 						break;
 					}
 				}
-				for (int i = iter+1; i < data_size; i++)
+				for (int i = iter + 1; i < data_size; i++)
 				{
 					if (subject_container[i] == NULL)
 					{
@@ -87,18 +87,19 @@ int main()
 						subject_container[i - 1] = subject_container[i];
 					}
 				}
+				data_size--;
 			}
-			data_size--;
+
 		}
 		printf("\n----------------------------Data------------------------------\n");
-		if(data_size!=0)
+		if (data_size != 0)
 		{
 			for (int i = 0; i < data_size; i++)
 				printf("name: [%10s] weight: [%10.1lf], height: [%10.1lf]\n", subject_container[i]->str, subject_container[i]->weight, subject_container[i]->height);
 		}
 		else
 		{
-			printf("no data");
+			printf("no data\n");
 		}
 		printf("--------------------------------------------------------------\n\n");
 
