@@ -48,9 +48,12 @@ int main()
 			int match = 0;
 			for (int i = 0; i < data_size; i++)
 			{
-				iter = i;
-				match = 1;
-				break;
+				if (strcmp(subject_container[i]->str, insert_name) == 0)
+				{
+					iter = i;
+					match = 1;
+					break;
+				}
 			}
 			if (match == 1)
 			{
