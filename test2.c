@@ -63,6 +63,7 @@ int main()
 			}
 			else
 			{
+				char no_match=0;
 				int iter = 0;
 				printf("insert name->");
 				char insert_name[20];
@@ -73,21 +74,29 @@ int main()
 					{
 						iter = i;
 						free(subject_container[iter]);
+						no_match = 1;
 						break;
 					}
 				}
-				for (int i = iter + 1; i < data_size; i++)
+				if (no_match == 0)
 				{
-					if (subject_container[i] == NULL)
-					{
-						break;
-					}
-					else
-					{
-						subject_container[i - 1] = subject_container[i];
-					}
+					printf("Wrong Subject Name Please Try Again!\n");
 				}
-				data_size--;
+				else
+				{
+					for (int i = iter + 1; i < data_size; i++)
+					{
+						if (subject_container[i] == NULL)
+						{
+							break;
+						}
+						else
+						{
+							subject_container[i - 1] = subject_container[i];
+						}
+					}
+					data_size--;
+				}
 			}
 
 		}
