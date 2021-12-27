@@ -24,7 +24,6 @@ int main()
 	{
 		int mode = 0;
 		printf("insert mode(exit->%d, add->%d, delete->%d)->", Exit, Add, Delete);
-
 		scanf("%d", &mode);
 
 		if (mode == Exit)
@@ -45,14 +44,29 @@ int main()
 			double insert_height = 0;
 			scanf("%Le", &insert_height);
 
-			subject* sub = malloc(sizeof(subject));
-			strcpy(sub->str, insert_name);
-			sub->weight = insert_weight;
-			sub->height = insert_height;
-
-			subject_container[data_size] = sub;
-			data_size++;
-
+			int iter = 0;
+			int match = 0;
+			for (int i = 0; i < data_size; i++)
+			{
+				iter = i;
+				match = 1;
+				break;
+			}
+			if (match == 1)
+			{
+				strcpy(subject_container[iter]->str, insert_name);
+				subject_container[iter]->weight = insert_weight;
+				subject_container[iter]->height = insert_height;
+			}
+			else
+			{
+				subject* sub = malloc(sizeof(subject));
+				strcpy(sub->str, insert_name);
+				sub->weight = insert_weight;
+				sub->height = insert_height;
+				subject_container[data_size] = sub;
+				data_size++;
+			}
 		}
 		else if (mode == Delete)
 		{
