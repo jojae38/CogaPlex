@@ -63,11 +63,10 @@ int main()
 			}
 			else
 			{
-				subject* sub = malloc(sizeof(subject));
-				strcpy(sub->str, insert_name);
-				sub->weight = insert_weight;
-				sub->height = insert_height;
-				subject_container[data_size] = sub;
+				subject_container[data_size] = malloc(sizeof(subject));
+				strcpy(subject_container[data_size]->str, insert_name);
+				subject_container[data_size]->weight = insert_weight;
+				subject_container[data_size]->height = insert_height;
 				data_size++;
 			}
 		}
@@ -80,7 +79,7 @@ int main()
 			}
 			else
 			{
-				char no_match=0;
+				char no_match = 0;
 				int iter = 0;
 				printf("insert name->");
 				char insert_name[20];
