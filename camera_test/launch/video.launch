@@ -1,0 +1,4 @@
+<launch>
+    <node name="video_node" pkg="camera_test" type="video" output="screen"></node>
+    <node name="visualizer_node" pkg="camera_test" type="visualizer" output="screen"></node>
+</launch>
