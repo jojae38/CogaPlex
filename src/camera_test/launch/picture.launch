@@ -1,0 +1,5 @@
+<launch>
+    <node name="loader_node" pkg="camera_test" type="loader" output="screen"></node>
+    <node name="visualizer_node" pkg="camera_test" type="visualizer" output="screen"></node>
+    <node name="publish_picture_path_node" pkg="camera_test" type="publish_picture_path" output="screen"></node>
+</launch>
