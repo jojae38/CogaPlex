@@ -43,7 +43,6 @@ typedef struct POINT
     double B_cluster;
     int move_val;
     int fruit;
-
 }POINT;
 typedef struct IMG_VAL
 {
@@ -56,7 +55,6 @@ typedef struct IMG_VAL
     int rows;
     int cols;
     int cluster_point;
-
 }IMG_VAL;
 class k_mean_func
 {
@@ -87,9 +85,9 @@ k_mean_func::k_mean_func()
     for(int i=1;i<=3;i++)
     {
         POINT temp_point;
-        temp_point.R_cluster=double((64*i))/255.;
-        temp_point.G_cluster=double((64*i))/255.;
-        temp_point.B_cluster=double((64*i))/255.;
+        temp_point.R_cluster=double((20*i))/255.;
+        temp_point.G_cluster=double((20*i))/255.;
+        temp_point.B_cluster=double((20*i))/255.;
         temp_point.R_cluster_prev=-1;
         temp_point.G_cluster_prev=-1;
         temp_point.B_cluster_prev=-1;
@@ -251,17 +249,26 @@ void k_mean_func::re_cluster()
             C_val_sum[3]++;
         }
     }
-    CLUSTER_POINT[0].R_cluster=A_val_sum[0]/A_val_sum[3];
-    CLUSTER_POINT[0].G_cluster=A_val_sum[1]/A_val_sum[3];
-    CLUSTER_POINT[0].B_cluster=A_val_sum[2]/A_val_sum[3];
+    if(A_val_sum[3]!=0)
+    {
+        CLUSTER_POINT[0].R_cluster=A_val_sum[0]/A_val_sum[3];
+        CLUSTER_POINT[0].G_cluster=A_val_sum[1]/A_val_sum[3];
+        CLUSTER_POINT[0].B_cluster=A_val_sum[2]/A_val_sum[3];
+    }
     CLUSTER_POINT[0].move_val++;
-    CLUSTER_POINT[1].R_cluster=B_val_sum[0]/B_val_sum[3];
-    CLUSTER_POINT[1].G_cluster=B_val_sum[1]/B_val_sum[3];
-    CLUSTER_POINT[1].B_cluster=B_val_sum[2]/B_val_sum[3];
+    if(B_val_sum[3]!=0)
+    {
+        CLUSTER_POINT[1].R_cluster=B_val_sum[0]/B_val_sum[3];
+        CLUSTER_POINT[1].G_cluster=B_val_sum[1]/B_val_sum[3];
+        CLUSTER_POINT[1].B_cluster=B_val_sum[2]/B_val_sum[3];
+    }
     CLUSTER_POINT[1].move_val++;
-    CLUSTER_POINT[2].R_cluster=C_val_sum[0]/C_val_sum[3];
-    CLUSTER_POINT[2].G_cluster=C_val_sum[1]/C_val_sum[3];
-    CLUSTER_POINT[2].B_cluster=C_val_sum[2]/C_val_sum[3];
+    if(C_val_sum[3]!=0)
+    {
+        CLUSTER_POINT[2].R_cluster=C_val_sum[0]/C_val_sum[3];
+        CLUSTER_POINT[2].G_cluster=C_val_sum[1]/C_val_sum[3];
+        CLUSTER_POINT[2].B_cluster=C_val_sum[2]/C_val_sum[3];
+    }
     CLUSTER_POINT[2].move_val++;
     cout << "data_num : "<<CLUSTER_POINT[0].move_val<<endl;
     k_mean_func::print_cluster_point();
@@ -501,11 +508,6 @@ void k_mean_func::test_image(int num)
     img_val.R_rate=T_R/pic_size;
     img_val.G_rate=T_G/pic_size;
     img_val.B_rate=T_B/pic_size;
-    cout <<img_val.R_rate<<" "<<img_val.G_rate<<" "<<img_val.B_rate<<endl;
-    cout <<R_clu1<<" "<<G_clu1<<" "<<B_clu1<<endl;
-    cout <<R_clu2<<" "<<G_clu2<<" "<<B_clu2<<endl;
-    cout <<R_clu3<<" "<<G_clu3<<" "<<B_clu3<<endl;
-    
 
     double dis_A = return_distance(R_clu1,img_val.R_rate,G_clu1,img_val.G_rate,B_clu1,img_val.B_rate);
     double dis_B = return_distance(R_clu2,img_val.R_rate,G_clu2,img_val.G_rate,B_clu2,img_val.B_rate);
@@ -513,5 +515,5 @@ void k_mean_func::test_image(int num)
 
     int index=k_mean_func::closer_cluster_index(dis_A,dis_B,dis_C);
 
-    cout << "I thick this fruit is "<<enum_str[CLUSTER_POINT[index-1].fruit]<<endl;
+    cout << "I thick this fruit is ["<<enum_str[CLUSTER_POINT[index-1].fruit]<<"]"<<endl;
 }
