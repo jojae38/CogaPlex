@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <ros/ros.h>
 #include <vector>
@@ -63,20 +65,36 @@ private:
     vector<IMG_VAL> IMG_INFO;
     vector<POINT> CLUSTER_POINT;
 public:
+    //INIT
     k_mean_func();
+    //Delete
     ~k_mean_func();
+
+    //IMAGE -> RGB_RATE
     void Mat_to_RGB(int fruit,int num);
+    //get 90 RGB_RATE_DOT[MAIN]
     void do_training();
-    void print_IMG_VAL(int num);
+    //iterator = MAX loop count if prev cluster_point didn't move break the loop
     void find_cluster_point(int iterator);
+    //find middle point of the RGB_DOT and update cluster_point
     void re_cluster();
-    void print_cluster_point();
+    //return which cluster
     int closer_cluster_index(double cluster_A_dis, double cluster_B_dis, double cluster_C_dis);
+    //return distance between a(x1,y2,z3) to b(x2,y2,z2) 
     double return_distance(double x1,double x2,double y1,double y2,double z1,double z2);
+    //print IMG_RGB_DOT
+    void print_IMG_VAL(int num);
+    //print cluster_current_point
+    void print_cluster_point();
+    //print which IMG_DOT match to which cluster_point
     void print_correct_rate();
-    void match_cluster_to_fruit();
+    //change prev cluster to current cluster
     void update_prev_cluster();
+    //prev!=current true
     bool cluster_point_is_change();
+    //match which cluster represent which fruit
+    void match_cluster_to_fruit();
+    //Do test num.jpeg and return Fruit name
     string test_image(int num);
 };
 k_mean_func::k_mean_func()
@@ -85,9 +103,9 @@ k_mean_func::k_mean_func()
     for(int i=1;i<=3;i++)
     {
         POINT temp_point;
-        temp_point.R_cluster=double((20*i))/255.;
-        temp_point.G_cluster=double((20*i))/255.;
-        temp_point.B_cluster=double((20*i))/255.;
+        temp_point.R_cluster=double((50*i))/255.;
+        temp_point.G_cluster=double((50*i))/255.;
+        temp_point.B_cluster=double((50*i))/255.;
         temp_point.R_cluster_prev=-1;
         temp_point.G_cluster_prev=-1;
         temp_point.B_cluster_prev=-1;
@@ -159,6 +177,18 @@ void k_mean_func::Mat_to_RGB(int fruit,int num)
             {
                 background++;
             }
+            else if(R_temp<30&&G_temp>225&&B_temp<30)
+            {
+                background++;
+            }
+            else if(R_temp>220&&B_temp>220)
+            {
+                background++;
+            }
+            else if(G_temp>220&&B_temp>220)
+            {
+                background++;
+            }
             else
             {
                 R+=R_temp;
@@ -173,12 +203,12 @@ void k_mean_func::Mat_to_RGB(int fruit,int num)
         T_G+=G;
         T_B+=B;
     }
-    
     double pic_size=double((adjust_end_row-adjust_start_row)*(adjust_end_col-adjust_start_col)-background);
     img_val.R_rate=T_R/pic_size;
     img_val.G_rate=T_G/pic_size;
     img_val.B_rate=T_B/pic_size;
     IMG_INFO.push_back(img_val);
+    
     data_num++;
     ROS_INFO("Trained data : %d",data_num);
 }
@@ -196,6 +226,7 @@ void k_mean_func::do_training()
     {
         Mat_to_RGB(grape,i);
     }
+    k_mean_func::print_IMG_VAL(1);
 }
 void k_mean_func::print_IMG_VAL(int num)
 {
